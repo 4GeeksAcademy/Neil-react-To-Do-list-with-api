@@ -1,12 +1,27 @@
 import React from "react";
+import { useState } from "react";
+
+
 
 
 
 
 //create your first component
-const Home = () => {
+const Home = () => { 
+	const [tasks, setTasks] = useState([]);
+	const [newTask, setNewTask] = useState("")
 
+	function InputChange (e) {
 
+	}
+
+	function AddTask () {
+
+	}
+
+	function DeleteTask (index) {
+
+	}
 
 
 
@@ -16,7 +31,7 @@ const Home = () => {
 			<h1 className="Title">Gotta Do It When It Gotta Get Done</h1>
 			
 			<div className="ToDo-Bar">
-				<input type="Text" class="Entered-list"></input>
+				<input type="Text" class="Entered-list" placeholder="Enter Task Then Tap That..." value ={newTask} onChange={InputChange}></input>
 				<button class="Add-List">Tap Dat</button>
 			</div>
 
