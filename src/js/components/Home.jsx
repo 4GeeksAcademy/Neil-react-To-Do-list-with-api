@@ -31,7 +31,7 @@ const Home = () => {
 			<h1 className="Title">Gotta Do It When It Gotta Get Done</h1>
 			
 			<div className="ToDo-Bar">
-				<input type="Text" class="Entered-list" placeholder="Enter Task Then Tap That..." value ={newTask} onChange={InputChange}></input>
+				<input type="Text" class="Entered-list" placeholder="Enter Task Then Tap Dat..." value ={newTask} onChange={InputChange}></input>
 				<button class="Add-List">Tap Dat</button>
 			</div>
 
