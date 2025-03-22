@@ -11,15 +11,19 @@ const Home = () => {
 	const [tasks, setTasks] = useState([]);
 	const [newTask, setNewTask] = useState("")
 
-	function InputChange (e) {
+	
+	function AddTask (e) { 
+		const taskList = tasks
+	
+
+		if(newTask.trim() !== "") {
+			setTasks([...taskList, newTask])
+			setNewTask("")
+		}
 
 	}
 
-	function AddTask () {
-
-	}
-
-	function DeleteTask (index) {
+	function DeleteTask () {
 
 	}
 
@@ -31,12 +35,25 @@ const Home = () => {
 			<h1 className="Title">Gotta Do It When It Gotta Get Done</h1>
 			
 			<div className="ToDo-Bar">
-				<input type="Text" class="Entered-list" placeholder="Enter Task Then Tap Dat..." value ={newTask} onChange={InputChange}></input>
-				<button class="Add-List">Tap Dat</button>
+				<input type="Text" className="Entered-list" placeholder="Enter Task Then Tap Dat..." value ={newTask} onChange={e => setNewTask(e.target.value)}></input>
+				<button onClick={() => AddTask()} className="Add-List">Tap Dat</button>
 			</div>
 
 			<div className="Box-List">
-				<div className="Delete-Button"></div>
+				<ul>
+					{tasks.map((task,index) => (
+					<li className="d-flex justify-content-between" key={index}>
+						{task}
+						<div className="Delete-Button">XXXX</div>
+					</li>	
+					))}
+				</ul>
+				
+				
+				
+				
+				
+				
 			</div>
 
 
