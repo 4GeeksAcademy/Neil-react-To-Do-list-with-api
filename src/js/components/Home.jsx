@@ -23,10 +23,10 @@ const Home = () => {
 
 	}
 
-	function DeleteTask () {
-		const TaskDelete = (index) => { 
-			setTasks(tasks.filter((task) => task !== setNewTask))
-		}
+	function DeleteTask (index) {
+	
+		setTasks(tasks.filter((task, i) => index !== i))
+		
 	}
 
 
@@ -46,7 +46,7 @@ const Home = () => {
 					{tasks.map((task,index) => (
 					<li className="d-flex justify-content-between" key={index}>
 						{task}
-						<button onClick={() => DeleteTask()} className="Delete-Button">XXXX</button>
+						<button onClick={() => DeleteTask(index)} className="Delete-Button">XXXX</button>
 					</li>	
 					))}
 				</ul>
