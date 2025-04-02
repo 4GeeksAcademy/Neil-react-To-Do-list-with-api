@@ -117,7 +117,7 @@ const Home = () => {
 						tasks.map((task) => (
 							<li className="d-flex justify-content-between" key={task.id}>
 								{task.label}
-								<button onClick={() => DeleteTask(task.id)} className="Delete-Button">Dat</button>
+								<button onClick={() => DeleteTask(task.id)} className="Delete-Button">delete</button>
 							</li>
 						))
 
@@ -126,7 +126,7 @@ const Home = () => {
 					)}
 
 					<button onClick={MassDeleteTasks} className="Mass-Delete-Button">
-						Mass Delete
+						Terminate
 					</button>
 
 				</ul>
