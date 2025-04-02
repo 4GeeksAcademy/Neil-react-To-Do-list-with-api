@@ -10,45 +10,87 @@ import { useState } from "react";
 const Home = () => {
 	const [tasks, setTasks] = useState([]);
 	const [newTask, setNewTask] = useState("")
-	useEffect(() => {
-		const fetchData = async () => {
-			const responce = await fetch("https://playground.4geeks.com/todo/users/nmorris11")
-			if (!responce.ok) {
-				alert("error fetching data")
-			}
-			const result = await responce.json()
-			setTasks(result.todos.map(task => task.label))
-		}
-		fetchData()
 
+	const createUser = async () => {
+		const response = await fetch("https://playground.4geeks.com/todo/users/nmorris11", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			}
+		})
+		if (!response.ok) {
+			console.log("Can not tap dat")
+		} else {
+			console.log("tapping may commence")
+			window.location.reload(false)
+		}
+	}
+	useEffect(() => {
+
+		fetchData()
+		console.log("tasks from fetch data", tasks)
 	}, [])
 
+	const fetchData = async () => {
+		const response = await fetch("https://playground.4geeks.com/todo/users/nmorris11")
+		if (!response.ok) {
+			await createUser()
+			return
+		}
+		const result = await response.json()
+		console.log("results from fetch data", result.todos)
+		if (result && Array.isArray(result.todos)) {
+			setTasks(result.todos)
 
-	// function AddTask(e) {
-	// 	const taskList = tasks
+		}
+		else {
+			console.log("Ecpected an array but got", JSON.stringify(result.todos))
+			setTasks([])
+		}
+		
 
+	}
 
-	// 	if (newTask.trim() !== "") {
-	// 		setTasks([...taskList, newTask])
-	// 		setNewTask("")
-	// 	}
-
-	// }
-
-	async function AddTask(e) {
-			const response = await fetch("https://playground.4geeks.com/todo/todos/nmorris11", {
-			  method: "POST",
-			  headers: {
+	const AddTask = async (e) => {
+		const taskList = tasks
+		if (newTask.trim() !== "") {
+			setTasks([...taskList, newTask])
+			setNewTask("")
+		}
+		const response = await fetch("https://playground.4geeks.com/todo/todos/nmorris11", {
+			method: "POST",
+			headers: {
 				"Content-Type": "application/json",
-			  },
-			  body: JSON.stringify({ label: newTask }), 
-			});
-	
+			},
+			body: JSON.stringify({ label: newTask, "is_done": false }),
+		});
 
-	function DeleteTask(index) {
+		if (!response.ok) {
+			console.log("No tapping dis time")
+			return
+		}
+		const data = await response.json()
+		console.log("Added Great", data)
 
-		setTasks(tasks.filter((task, i) => index !== i))
+		// setTasks((prevTasks) => [...prevTasks, response.data]
+		// )
+		fetchData()
+	}
 
+	const DeleteTask = async (id) => {
+		console.log("trying to delete id: ", id)
+		const response = await fetch(`https://playground.4geeks.com/todo/todos/${id}`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+		if(!response.ok) {
+			console.log("delete task failed")
+		} else {
+			console.log("delete task success")
+		}
+		fetchData()
 	}
 
 
@@ -68,10 +110,10 @@ const Home = () => {
 				<ul>
 					{tasks.length > 0 ? (
 
-						tasks.map((task, index) => (
-							<li className="d-flex justify-content-between" key={index}>
-								{task}
-								<button onClick={() => DeleteTask(index)} className="Delete-Button">XXXX</button>
+						tasks.map((task) => (
+							<li className="d-flex justify-content-between" key={task.id}>
+								{task.label}
+								<button onClick={() => DeleteTask(task.id)} className="Delete-Button">Dat</button>
 							</li>
 						))
 
@@ -80,19 +122,7 @@ const Home = () => {
 					)}
 
 				</ul>
-
-
-
-
-
-
 			</div>
-
-
-
-
-
-
 		</div>
 	);
 };
