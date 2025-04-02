@@ -6,7 +6,7 @@ import { useState } from "react";
 
 
 
-//create your first component
+
 const Home = () => {
 	const [tasks, setTasks] = useState([]);
 	const [newTask, setNewTask] = useState("")
@@ -31,6 +31,8 @@ const Home = () => {
 		console.log("tasks from fetch data", tasks)
 	}, [])
 
+
+
 	const fetchData = async () => {
 		const response = await fetch("https://playground.4geeks.com/todo/users/nmorris11")
 		if (!response.ok) {
@@ -47,9 +49,8 @@ const Home = () => {
 			console.log("Ecpected an array but got", JSON.stringify(result.todos))
 			setTasks([])
 		}
-		
-
 	}
+
 
 	const AddTask = async (e) => {
 		const taskList = tasks
@@ -72,8 +73,6 @@ const Home = () => {
 		const data = await response.json()
 		console.log("Added Great", data)
 
-		// setTasks((prevTasks) => [...prevTasks, response.data]
-		// )
 		fetchData()
 	}
 
@@ -85,7 +84,7 @@ const Home = () => {
 				"Content-Type": "application/json",
 			},
 		})
-		if(!response.ok) {
+		if (!response.ok) {
 			console.log("delete task failed")
 		} else {
 			console.log("delete task success")
@@ -93,9 +92,14 @@ const Home = () => {
 		fetchData()
 	}
 
-
-
-
+	const MassDeleteTasks = async () => {
+		for (let task of tasks) {
+			await DeleteTask(task.id);
+		}
+		console.log("All tasks deleted");
+	};
+	
+	
 	return (
 		<div className="Container">
 			<h1 className="Title">Gotta Do It When It Gotta Get Done</h1>
@@ -121,9 +125,15 @@ const Home = () => {
 						<li>no task available</li>
 					)}
 
+					<button onClick={MassDeleteTasks} className="Mass-Delete-Button">
+						Mass Delete
+					</button>
+
 				</ul>
 			</div>
 		</div>
+
+
 	);
 };
 
